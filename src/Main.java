@@ -1,4 +1,3 @@
-Искандер, [03/02/2025 15:51]
 import java.util.Scanner;
 
 import models.*;
@@ -65,7 +64,7 @@ public class Main {
 
                         if (adminChoice == 0) break;
 
-                        Искандер, [03/02/2025 15:51]
+
                         if (adminChoice == 1) {
                             adminController.generateReport();
                         } else if (adminChoice == 2) {
