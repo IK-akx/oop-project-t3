@@ -8,11 +8,14 @@ import services.*;
 public class Main {
     public static void main(String[] args) {
         UserService userService = new UserService();
-        UserController userController = new UserController(userService);
         OrderService orderService = new OrderService();
         ProductService productService = new ProductService();
         NotificationService notificationService = new NotificationService();
         AdminController adminController = new AdminController(orderService, productService, userService, notificationService);
+        SupportService supportService = new SupportService();
+        UserController userController = new UserController(userService, orderService, productService, notificationService, supportService);
+
+
 
         Scanner scanner = new Scanner(System.in);
 
@@ -64,7 +67,6 @@ public class Main {
 
                         if (adminChoice == 0) break;
 
-
                         if (adminChoice == 1) {
                             adminController.generateReport();
                         } else if (adminChoice == 2) {
@@ -104,10 +106,13 @@ public class Main {
                             adminController.updateUser(userEmail, userName, userPassword);
                         }
                     }
-                } else {
+                }else {
                     while (true) {
                         System.out.println("1. Create Order");
                         System.out.println("2. View Orders");
+                        System.out.println("3. View Notifications");
+                        System.out.println("4. View Products");
+                        System.out.println("5. Send Support Message");
                         System.out.println("0. Logout");
                         int userChoice = scanner.nextInt();
                         scanner.nextLine();
@@ -119,13 +124,29 @@ public class Main {
                             String product = scanner.nextLine();
                             System.out.print("Enter quantity: ");
                             int quantity = scanner.nextInt();
-                            orderService.createOrder(product, quantity);
+                            scanner.nextLine(); // consume newline
+                            userController.createOrder(product, quantity);
                         } else if (userChoice == 2) {
                             System.out.println("Your Orders:");
-                            for (Order order : orderService.getAllOrders()) {
+                            for (Order order : userController.viewOrders()) {
                                 System.out.println("ID: " + order.getId() + ", Product: " + order.getProduct() +
                                         ", Quantity: " + order.getQuantity() + ", Status: " + order.getStatus());
                             }
+                        } else if (userChoice == 3) {
+                            System.out.println("Your Notifications:");
+                            for (Notification notification : userController.viewNotifications(user.getEmail())) {
+                                System.out.println(notification.getMessage());
+                            }
+                        } else if (userChoice == 4) {
+                            System.out.println("Available Products:");
+                            for (Product product : userController.viewProducts()) {
+                                System.out.println("ID: " + product.getId() + ", Name: " + product.getName() +
+                                        ", Price: " + product.getPrice());
+                            }
+                        } else if (userChoice == 5) {
+                            System.out.print("Enter your message: ");
+                            String message = scanner.nextLine();
+                            userController.sendSupportMessage(user.getEmail(), message);
                         }
                     }
                 }
