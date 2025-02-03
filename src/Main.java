@@ -10,7 +10,9 @@ public class Main {
         UserService userService = new UserService();
         UserController userController = new UserController(userService);
         OrderService orderService = new OrderService();
-        AdminController adminController = new AdminController(orderService);
+        ProductService productService = new ProductService();
+        NotificationService notificationService = new NotificationService();
+        AdminController adminController = new AdminController(orderService, productService, userService, notificationService);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -51,21 +53,55 @@ public class Main {
                     while (true) {
                         System.out.println("1. Generate Report");
                         System.out.println("2. Update Order Status");
+                        System.out.println("3. Send Notification");
+                        System.out.println("4. View Products");
+                        System.out.println("5. Update Product");
+                        System.out.println("6. View Users");
+                        System.out.println("7. Update User");
                         System.out.println("0. Logout");
                         int adminChoice = scanner.nextInt();
                         scanner.nextLine(); // Consume newline
 
                         if (adminChoice == 0) break;
 
+
                         if (adminChoice == 1) {
                             adminController.generateReport();
                         } else if (adminChoice == 2) {
                             System.out.print("Enter Order ID: ");
                             int orderId = scanner.nextInt();
+                            scanner.nextLine(); // Consume newline
                             System.out.print("Enter new status: ");
-                            scanner.nextLine();
                             String status = scanner.nextLine();
                             adminController.updateOrderStatus(orderId, status);
+                        } else if (adminChoice == 3) {
+                            System.out.print("Enter customer email: ");
+                            String customerEmail = scanner.nextLine();
+                            System.out.print("Enter message: ");
+                            String message = scanner.nextLine();
+                            adminController.sendNotification(customerEmail, message);
+                        } else if (adminChoice == 4) {
+                            adminController.viewProducts();
+                        } else if (adminChoice == 5) {
+                            System.out.print("Enter Product ID: ");
+                            int productId = scanner.nextInt();
+                            scanner.nextLine(); // Consume newline
+                            System.out.print("Enter new name: ");
+                            String productName = scanner.nextLine();
+                            System.out.print("Enter new price: ");
+                            double price = scanner.nextDouble();
+                            scanner.nextLine(); // Consume newline
+                            adminController.updateProduct(productId, productName, price);
+                        } else if (adminChoice == 6) {
+                            adminController.viewUsers();
+                        } else if (adminChoice == 7) {
+                            System.out.print("Enter user email: ");
+                            String userEmail = scanner.nextLine();
+                            System.out.print("Enter new name: ");
+                            String userName = scanner.nextLine();
+                            System.out.print("Enter new password: ");
+                            String userPassword = scanner.nextLine();
+                            adminController.updateUser(userEmail, userName, userPassword);
                         }
                     }
                 } else {
