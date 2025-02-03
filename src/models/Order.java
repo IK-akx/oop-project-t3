@@ -7,12 +7,16 @@ public class Order {
     private String status; // "Pending", "Completed", etc.
 
     public Order(int id, String product, int quantity, String status) {
-        this.id = id;
-        this.product = product;
-        this.quantity = quantity;
-        this.status = status;
+        setId(id);
+        setProduct(product);
+        setQuantity(quantity);
+        setSaleStatus(status);
     }
 
+    public void setId(int id) {this.id = id;}
+    public void setProduct(String product) {this.product = product;}
+    public void setQuantity(int quantity) {this.quantity = quantity;}
+    public void setSaleStatus(String status) {this.status = status;}
 
     public int getId() { return id; }
     public String getProduct() { return product; }

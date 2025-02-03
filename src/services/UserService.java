@@ -9,6 +9,8 @@ public class UserService {
     private List<User> users = new ArrayList<>();
 
     public UserService() {
+
+
         users.add(new User("Admin", "admin@gmail.com", "adminpass", true));
     }
 
