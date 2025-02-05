@@ -75,7 +75,7 @@ public class Main {
                         } else if (adminChoice == 2) {
                             System.out.print("Enter Order ID: ");
                             int orderId = scanner.nextInt();
-                            scanner.nextLine(); // Consume newline
+                            scanner.nextLine();
                             System.out.print("Enter new status: ");
                             String status = scanner.nextLine();
                             adminController.updateOrderStatus(orderId, status);
@@ -90,12 +90,12 @@ public class Main {
                         } else if (adminChoice == 5) {
                             System.out.print("Enter Product ID: ");
                             int productId = scanner.nextInt();
-                            scanner.nextLine(); // Consume newline
+                            scanner.nextLine();
                             System.out.print("Enter new name: ");
                             String productName = scanner.nextLine();
                             System.out.print("Enter new price: ");
                             double price = scanner.nextDouble();
-                            scanner.nextLine(); // Consume newline
+                            scanner.nextLine();
                             adminController.updateProduct(productId, productName, price);
                         } else if (adminChoice == 6) {
                             adminController.viewUsers();
@@ -127,7 +127,7 @@ public class Main {
                             String product = scanner.nextLine();
                             System.out.print("Enter quantity: ");
                             int quantity = scanner.nextInt();
-                            scanner.nextLine(); // consume newline
+                            scanner.nextLine();
                             userController.createOrder(product, quantity);
                         } else if (userChoice == 2) {
                             System.out.println("Your Orders:");
