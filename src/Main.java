@@ -38,7 +38,10 @@ public class Main {
                 String email = scanner.nextLine();
                 System.out.print("Enter password: ");
                 String password = scanner.nextLine();
-                userController.register(name, email, password);
+                System.out.print("Is Admin (true/false): ");
+                boolean isAdmin = scanner.nextBoolean();
+                scanner.nextLine(); // consume newline
+                userController.register(name, email, password, isAdmin);
             } else if (choice == 2) {
                 System.out.print("Enter email: ");
                 String email = scanner.nextLine();
@@ -47,7 +50,7 @@ public class Main {
                 User user = userController.login(email, password);
 
                 if (user == null) {
-                    System.out.println("Invalid email or password.");
+                    System.out.println("Incorrect email or password.");
                     continue;
                 }
 
@@ -63,7 +66,7 @@ public class Main {
                         System.out.println("7. Update User");
                         System.out.println("0. Logout");
                         int adminChoice = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
+                        scanner.nextLine();
 
                         if (adminChoice == 0) break;
 
@@ -72,7 +75,7 @@ public class Main {
                         } else if (adminChoice == 2) {
                             System.out.print("Enter Order ID: ");
                             int orderId = scanner.nextInt();
-                            scanner.nextLine(); // Consume newline
+                            scanner.nextLine();
                             System.out.print("Enter new status: ");
                             String status = scanner.nextLine();
                             adminController.updateOrderStatus(orderId, status);
@@ -87,12 +90,12 @@ public class Main {
                         } else if (adminChoice == 5) {
                             System.out.print("Enter Product ID: ");
                             int productId = scanner.nextInt();
-                            scanner.nextLine(); // Consume newline
+                            scanner.nextLine();
                             System.out.print("Enter new name: ");
                             String productName = scanner.nextLine();
                             System.out.print("Enter new price: ");
                             double price = scanner.nextDouble();
-                            scanner.nextLine(); // Consume newline
+                            scanner.nextLine();
                             adminController.updateProduct(productId, productName, price);
                         } else if (adminChoice == 6) {
                             adminController.viewUsers();
@@ -124,7 +127,7 @@ public class Main {
                             String product = scanner.nextLine();
                             System.out.print("Enter quantity: ");
                             int quantity = scanner.nextInt();
-                            scanner.nextLine(); // consume newline
+                            scanner.nextLine();
                             userController.createOrder(product, quantity);
                         } else if (userChoice == 2) {
                             System.out.println("Your Orders:");
