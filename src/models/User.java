@@ -1,25 +1,23 @@
 package models;
 
-public class User {
+public abstract class User {
     private String name;
     private String email;
     private String password;
-    private boolean isAdmin;
 
-    public User(String name, String email, String password, boolean isAdmin) {
+    public User(String name, String email, String password) {
         setName(name);
         setEmail(email);
         setPassword(password);
-        setAdmin(isAdmin);
     }
 
     public void setName(String name) {this.name = name;}
     public void setEmail(String email) {this.email = email;}
     public void setPassword(String password) {this.password = password;}
-    public void setAdmin(boolean isAdmin) {this.isAdmin = isAdmin;}
 
-    public String getName() { return name; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-    public boolean isAdmin() { return isAdmin; }
+    public String getName() {return name;}
+    public String getEmail() {return email;}
+    public String getPassword() {return password;}
+
+    public abstract boolean isAdmin();
 }

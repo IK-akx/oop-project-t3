@@ -38,7 +38,10 @@ public class Main {
                 String email = scanner.nextLine();
                 System.out.print("Enter password: ");
                 String password = scanner.nextLine();
-                userController.register(name, email, password);
+                System.out.print("Is Admin (true/false): ");
+                boolean isAdmin = scanner.nextBoolean();
+                scanner.nextLine(); // consume newline
+                userController.register(name, email, password, isAdmin);
             } else if (choice == 2) {
                 System.out.print("Enter email: ");
                 String email = scanner.nextLine();
@@ -47,7 +50,7 @@ public class Main {
                 User user = userController.login(email, password);
 
                 if (user == null) {
-                    System.out.println("Invalid email or password.");
+                    System.out.println("Incorrect email or password.");
                     continue;
                 }
 
@@ -63,7 +66,7 @@ public class Main {
                         System.out.println("7. Update User");
                         System.out.println("0. Logout");
                         int adminChoice = scanner.nextInt();
-                        scanner.nextLine(); // Consume newline
+                        scanner.nextLine();
 
                         if (adminChoice == 0) break;
 

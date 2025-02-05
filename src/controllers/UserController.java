@@ -24,8 +24,8 @@ public class UserController {
         this.supportService = supportService;
     }
 
-    public void register(String name, String email, String password) {
-        userService.register(name, email, password);
+    public void register(String name, String email, String password, boolean isAdmin) {
+        userService.register(name, email, password, isAdmin);
     }
 
     public User login(String email, String password) {
@@ -52,4 +52,3 @@ public class UserController {
         supportService.sendSupportMessage(email, message);
     }
 }
-

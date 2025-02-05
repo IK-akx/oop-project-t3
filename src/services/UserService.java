@@ -1,5 +1,8 @@
 package services;
 
+import models.Admin;
+import models.Customer;
+import models.Customer;
 import models.User;
 
 import java.util.ArrayList;
@@ -9,17 +12,21 @@ public class UserService {
     private List<User> users = new ArrayList<>();
 
     public UserService() {
-        users.add(new User("Admin", "admin@gmail.com", "adminpass", true));
+        users.add(new Admin("Admin", "admin@gmail.com", "adminpass"));
     }
 
-    public void register(String name, String email, String password) {
+    public void register(String name, String email, String password, boolean isAdmin) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
                 System.out.println("User with this email already exists.");
                 return;
             }
         }
-        users.add(new User(name, email, password, false));
+        if (isAdmin) {
+            users.add(new Admin(name, email, password));
+        } else {
+            users.add(new Customer(name, email, password));
+        }
         System.out.println("User registered: " + name);
     }
 
