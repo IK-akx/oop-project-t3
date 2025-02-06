@@ -52,6 +52,7 @@ public class MyApplication {
                     }
                 }
 
+
                 scanner.nextLine();
                 userController.register(name, email, password, isAdmin);
             } else if (choice == 2) {
