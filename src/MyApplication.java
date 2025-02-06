@@ -38,9 +38,21 @@ public class MyApplication {
                 String email = scanner.nextLine();
                 System.out.print("Enter password: ");
                 String password = scanner.nextLine();
-                System.out.print("Is Admin (true/false): ");
-                boolean isAdmin = scanner.nextBoolean();
-                scanner.nextLine(); // consume newline
+                System.out.print("Is Admin or Customer? (A/C): ");
+                String roleDefine = scanner.nextLine();
+                boolean isAdmin = roleDefine.equals("A");
+
+                String realAdminCode = "120628";
+                if (isAdmin) {
+                    System.out.print("Enter Admin Code: ");
+                    String adminCode = scanner.nextLine();
+                    if (!adminCode.equals(realAdminCode)) {
+                        System.out.println("Incorrect Admin Code. Registration as Admin failed.");
+                        continue;
+                    }
+                }
+
+                scanner.nextLine();
                 userController.register(name, email, password, isAdmin);
             } else if (choice == 2) {
                 System.out.print("Enter email: ");
