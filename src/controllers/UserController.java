@@ -14,9 +14,10 @@ public class UserController {
     private ProductService productService;
     private NotificationService notificationService;
     private SupportService supportService;
-    //UserService userService, OrderService orderService, ProductService productService,
-    //                          NotificationService notificationService, SupportService supportService
-    public UserController(UserService userService) {
+
+
+    public UserController(UserService userService, OrderService orderService, ProductService productService,
+                          NotificationService notificationService, SupportService supportService) {
         this.userService = userService;
         this.orderService = orderService;
         this.productService = productService;
@@ -32,9 +33,27 @@ public class UserController {
         return userService.login(email, password);
     }
 
-    public void createOrder(String product, int quantity) {
-        orderService.createOrder(product, quantity);
+    public double getProductPriceById(int productId) {
+        Product product = productService.getProductById(productId);
+        if (product != null) {
+            return product.getPrice();
+        } else {
+            System.out.println("Product not found with ID: " + productId);
+            return 0.0;
+        }
     }
+
+    public void createOrder(int userId, int productId, int quantity, double totalPrice, String status) {
+        Product product = productService.getProductById(productId);
+        if (product != null && product.getCount() >= quantity) {
+            orderService.createOrder(userId, productId, quantity, totalPrice, status);
+            productService.decreaseProductCount(productId, quantity);
+            System.out.println("Order created successfully!");
+        } else {
+            System.out.println("Order failed: Insufficient stock or product not found.");
+        }
+    }
+
 
     public List<Order> viewOrders() {
         return orderService.getAllOrders();

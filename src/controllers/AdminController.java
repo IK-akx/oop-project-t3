@@ -10,13 +10,14 @@ public class AdminController {
     private ProductService productService;
     private UserService userService;
     private NotificationService notificationService;
+    private SupportService supportService;
 
-    //OrderService orderService, ProductService productService, UserService userService, NotificationService notificationService
-    public AdminController(UserService userService) {
+    public AdminController(OrderService orderService, ProductService productService, UserService userService, NotificationService notificationService, SupportService supportService) {
         this.orderService = orderService;
         this.productService = productService;
         this.userService = userService;
         this.notificationService = notificationService;
+        this.supportService = supportService;
     }
 
     public void generateReport() {
@@ -26,8 +27,9 @@ public class AdminController {
         } else {
             System.out.println("Order Report:");
             for (Order order : orders) {
-                System.out.println("ID: " + order.getId() + ", Product: " + order.getProduct() +
-                        ", Quantity: " + order.getQuantity() + ", Status: " + order.getStatus());
+                System.out.println("ID: " + order.getId() + ", Product ID: " + order.getProductId() +
+                        ", Quantity: " + order.getQuantity() + ", Total Price: " + order.getTotalPrice() +
+                        ", Status: " + order.getStatus());
             }
         }
     }
@@ -47,8 +49,14 @@ public class AdminController {
         }
     }
 
-    public void updateProduct(int productId, String name, double price) {
-        productService.updateProduct(productId, name, price);
+    public void updateProduct(int productId, String name, double price, int count) {
+        Product product = new Product(productId, name, price, count);
+        productService.updateProduct(product);
+    }
+
+    public void decreaseProductCount(int productId, int quantity) {
+        productService.decreaseProductCount(productId, quantity);
+        System.out.println("Product count updated for product ID: " + productId);
     }
 
     public void viewUsers() {
@@ -60,5 +68,17 @@ public class AdminController {
 
     public void updateUser(String email, String name, String password) {
         userService.updateUser(email, name, password);
+    }
+
+    public void viewSupportMessages() {
+        List<SupportMessage> supportMessages = supportService.getAllSupportMessages();
+        if (supportMessages.isEmpty()) {
+            System.out.println("No support messages available.");
+        } else {
+            System.out.println("Support Messages:");
+            for (SupportMessage message : supportMessages) {
+                System.out.println(message);
+            }
+        }
     }
 }

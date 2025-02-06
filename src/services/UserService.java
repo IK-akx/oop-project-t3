@@ -15,20 +15,20 @@ public class UserService {
     }
 
     public void register(String name, String email, String password, boolean isAdmin) {
-
         if (userRepository.getUserByEmail(email) != null) {
             System.out.println("User with this email already exists.");
             return;
         }
         User newUser;
         if (isAdmin) {
-            newUser = new Admin(name, email, password);
+            newUser = new Admin(0, name, email, password); // Передаём временный id
         } else {
-            newUser = new Customer(name, email, password);
+            newUser = new Customer(0, name, email, password); // Передаём временный id
         }
         userRepository.addUser(newUser);
         System.out.println("User registered: " + name);
     }
+
 
 
     public User login(String email, String password) {
@@ -50,5 +50,9 @@ public class UserService {
             user.setPassword(password);
             userRepository.updateUser(user);
         }
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.getUserByEmail(email);
     }
 }
