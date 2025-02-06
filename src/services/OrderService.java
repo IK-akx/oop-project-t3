@@ -1,32 +1,34 @@
 package services;
 
 import models.Order;
+import repositories.interfaces.IOrderRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderService {
-    private List<Order> orders = new ArrayList<>();
-    private int nextOrderId = 1;
+    private final IOrderRepository orderRepository;
 
-    public void createOrder(String product, int quantity) {
-        orders.add(new Order(nextOrderId++, product, quantity, "Pending"));
-        System.out.println("Order created.");
+    public OrderService(IOrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    public void createOrder(int userId, int productId, int quantity, double totalPrice, String status) {
+        Order order = new Order(0, userId, productId, quantity, totalPrice, status);
+        orderRepository.addOrder(order);
     }
 
     public List<Order> getAllOrders() {
-        return orders;
+        return orderRepository.getAllOrders();
     }
 
     public void updateOrderStatus(int orderId, String status) {
-        for (Order order : orders) {
-            if (order.getId() == orderId) {
-                order.setStatus(status);
-                System.out.println("Order status updated.");
-                return;
-            }
+        Order order = orderRepository.getOrderById(orderId);
+        if (order != null) {
+            order.setStatus(status);
+            orderRepository.updateOrder(order);
+            System.out.println("Order status updated.");
+        } else {
+            System.out.println("Order not found.");
         }
-        System.out.println("Order not found.");
     }
 }
-

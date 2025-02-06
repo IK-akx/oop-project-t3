@@ -40,7 +40,7 @@ public class MyApplication {
                 String password = scanner.nextLine();
                 System.out.print("Is Admin (true/false): ");
                 boolean isAdmin = scanner.nextBoolean();
-                scanner.nextLine();
+                scanner.nextLine(); // consume newline
                 userController.register(name, email, password, isAdmin);
             } else if (choice == 2) {
                 System.out.print("Enter email: ");
@@ -64,6 +64,7 @@ public class MyApplication {
                         System.out.println("5. Update Product");
                         System.out.println("6. View Users");
                         System.out.println("7. Update User");
+                        System.out.println("8. View Support Messages");
                         System.out.println("0. Logout");
                         int adminChoice = scanner.nextInt();
                         scanner.nextLine();
@@ -75,7 +76,7 @@ public class MyApplication {
                         } else if (adminChoice == 2) {
                             System.out.print("Enter Order ID: ");
                             int orderId = scanner.nextInt();
-                            scanner.nextLine();
+                            scanner.nextLine(); // Consume newline
                             System.out.print("Enter new status: ");
                             String status = scanner.nextLine();
                             adminController.updateOrderStatus(orderId, status);
@@ -87,7 +88,7 @@ public class MyApplication {
                             adminController.sendNotification(customerEmail, message);
                         } else if (adminChoice == 4) {
                             adminController.viewProducts();
-                        } else if (adminChoice == 5) {
+                        } if (adminChoice == 5) {
                             System.out.print("Enter Product ID: ");
                             int productId = scanner.nextInt();
                             scanner.nextLine();
@@ -95,8 +96,12 @@ public class MyApplication {
                             String productName = scanner.nextLine();
                             System.out.print("Enter new price: ");
                             double price = scanner.nextDouble();
+                            System.out.print("Enter new count: ");
+                            int count = scanner.nextInt();
                             scanner.nextLine();
-                            adminController.updateProduct(productId, productName, price);
+
+                            adminController.updateProduct(productId, productName, price, count);
+
                         } else if (adminChoice == 6) {
                             adminController.viewUsers();
                         } else if (adminChoice == 7) {
@@ -107,6 +112,8 @@ public class MyApplication {
                             System.out.print("Enter new password: ");
                             String userPassword = scanner.nextLine();
                             adminController.updateUser(userEmail, userName, userPassword);
+                        }else if (adminChoice == 8) {
+                            adminController.viewSupportMessages();
                         }
                     }
                 }else {
@@ -123,19 +130,32 @@ public class MyApplication {
                         if (userChoice == 0) break;
 
                         if (userChoice == 1) {
-                            System.out.print("Enter product: ");
-                            String product = scanner.nextLine();
+                            System.out.print("Enter product ID: ");
+                            int productId = scanner.nextInt();
+                            scanner.nextLine();
                             System.out.print("Enter quantity: ");
                             int quantity = scanner.nextInt();
                             scanner.nextLine();
-                            userController.createOrder(product, quantity);
+
+
+                            double price = userController.getProductPriceById(productId);
+                            if (price > 0) {
+                                double totalPrice = quantity * price;
+                                userController.createOrder(user.getId(), productId, quantity, totalPrice, "Pending");
+                                System.out.println("Order created successfully!");
+                            } else {
+                                System.out.println("Failed to create order: Product not found.");
+                            }
+
                         } else if (userChoice == 2) {
                             System.out.println("Your Orders:");
                             for (Order order : userController.viewOrders()) {
-                                System.out.println("ID: " + order.getId() + ", Product: " + order.getProduct() +
-                                        ", Quantity: " + order.getQuantity() + ", Status: " + order.getStatus());
+                                System.out.println("ID: " + order.getId() + ", Product ID: " + order.getProductId() +
+                                        ", Quantity: " + order.getQuantity() + ", Total Price: " + order.getTotalPrice() +
+                                        ", Status: " + order.getStatus());
                             }
-                        } else if (userChoice == 3) {
+                        }
+                        else if (userChoice == 3) {
                             System.out.println("Your Notifications:");
                             for (Notification notification : userController.viewNotifications(user.getEmail())) {
                                 System.out.println(notification.getMessage());
