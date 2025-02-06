@@ -14,9 +14,9 @@ public class UserController {
     private ProductService productService;
     private NotificationService notificationService;
     private SupportService supportService;
-
-    public UserController(UserService userService, OrderService orderService, ProductService productService,
-                          NotificationService notificationService, SupportService supportService) {
+    //UserService userService, OrderService orderService, ProductService productService,
+    //                          NotificationService notificationService, SupportService supportService
+    public UserController(UserService userService) {
         this.userService = userService;
         this.orderService = orderService;
         this.productService = productService;
@@ -52,3 +52,4 @@ public class UserController {
         supportService.sendSupportMessage(email, message);
     }
 }
+
