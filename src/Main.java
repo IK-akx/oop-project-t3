@@ -1,9 +1,15 @@
 import controllers.AdminController;
 import controllers.UserController;
+import data.interfaces.IDB;
 import services.*;
+import data.*;
+
+
 
 public class Main {
     public static void main(String[] args) {
+        IDB db = new PostgresDB("jdbc:postgresql://localhost:5432", "postgres", "0000", "postgres");
+
         UserService userService = new UserService();
         OrderService orderService = new OrderService();
         ProductService productService = new ProductService();
@@ -14,5 +20,8 @@ public class Main {
 
         MyApplication app = new MyApplication(userController, adminController);
         app.start();
+
+        db.close();
+
     }
 }
