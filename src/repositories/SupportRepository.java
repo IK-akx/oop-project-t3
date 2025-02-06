@@ -1,5 +1,6 @@
 package repositories;
 
+import data.PostgresDB;
 import data.interfaces.IDB;
 import models.SupportMessage;
 import repositories.interfaces.ISupportRepository;
@@ -11,15 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupportRepository implements ISupportRepository {
-    private final IDB db;
+    private final Connection con;
 
     public SupportRepository(IDB db) {
-        this.db = db;
+        this.con = PostgresDB.getInstance("jdbc:postgresql://localhost:5432", "postgres", "0000", "postgres").getConnection();
     }
 
     @Override
     public void addSupportMessage(SupportMessage supportMessage) {
-        try (Connection con = db.getConnection()) {
+        try {
             String sql = "INSERT INTO supportmessages (user_id, message, email) VALUES (?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, supportMessage.getUserId());
@@ -34,7 +35,7 @@ public class SupportRepository implements ISupportRepository {
     @Override
     public List<SupportMessage> getAllSupportMessages() {
         List<SupportMessage> supportMessages = new ArrayList<>();
-        try (Connection con = db.getConnection()) {
+        try  {
             String sql = "SELECT * FROM supportmessages";
             PreparedStatement st = con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -56,7 +57,7 @@ public class SupportRepository implements ISupportRepository {
     @Override
     public List<SupportMessage> getSupportMessagesByUserId(int userId) {
         List<SupportMessage> supportMessages = new ArrayList<>();
-        try (Connection con = db.getConnection()) {
+        try  {
             String sql = "SELECT * FROM supportmessages WHERE user_id = ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, userId);

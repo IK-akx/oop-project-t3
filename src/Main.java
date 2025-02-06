@@ -11,7 +11,7 @@ public class Main {
         IDB db = new PostgresDB("jdbc:postgresql://localhost:5432", "postgres", "0000", "postgres");
 
 
-        IUserRepository userRepository = new UserRepository(db);
+        IUserRepository userRepository = new UserRepository();
         IOrderRepository orderRepository = new OrderRepository(db);
         IProductRepository productRepository = new ProductRepository(db);
         INotificationRepository notificationRepository = new NotificationRepository(db);
