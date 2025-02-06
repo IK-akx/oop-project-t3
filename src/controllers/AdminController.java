@@ -11,7 +11,8 @@ public class AdminController {
     private UserService userService;
     private NotificationService notificationService;
 
-    public AdminController(OrderService orderService, ProductService productService, UserService userService, NotificationService notificationService) {
+    //OrderService orderService, ProductService productService, UserService userService, NotificationService notificationService
+    public AdminController(UserService userService) {
         this.orderService = orderService;
         this.productService = productService;
         this.userService = userService;

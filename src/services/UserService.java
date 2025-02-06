@@ -1,57 +1,54 @@
 package services;
 
+import models.User;
 import models.Admin;
 import models.Customer;
-import models.Customer;
-import models.User;
+import repositories.interfaces.IUserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
-    private List<User> users = new ArrayList<>();
+    private final IUserRepository userRepository;
 
-    public UserService() {
-        users.add(new Admin("Admin", "admin@gmail.com", "adminpass"));
+    public UserService(IUserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public void register(String name, String email, String password, boolean isAdmin) {
-        for (User user : users) {
-            if (user.getEmail().equals(email)) {
-                System.out.println("User with this email already exists.");
-                return;
-            }
+
+        if (userRepository.getUserByEmail(email) != null) {
+            System.out.println("User with this email already exists.");
+            return;
         }
+        User newUser;
         if (isAdmin) {
-            users.add(new Admin(name, email, password));
+            newUser = new Admin(name, email, password);
         } else {
-            users.add(new Customer(name, email, password));
+            newUser = new Customer(name, email, password);
         }
+        userRepository.addUser(newUser);
         System.out.println("User registered: " + name);
     }
 
+
     public User login(String email, String password) {
-        for (User user : users) {
-            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                return user;
-            }
+        User user = userRepository.getUserByEmail(email);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
         }
         return null;
     }
 
     public List<User> getAllUsers() {
-        return users;
+        return userRepository.getAllUsers();
     }
 
     public void updateUser(String email, String name, String password) {
-        for (User user : users) {
-            if (user.getEmail().equals(email)) {
-                user.setName(name);
-                user.setPassword(password);
-                System.out.println("User updated: " + email);
-                return;
-            }
+        User user = userRepository.getUserByEmail(email);
+        if (user != null) {
+            user.setName(name);
+            user.setPassword(password);
+            userRepository.updateUser(user);
         }
-        System.out.println("User not found: " + email);
     }
 }
