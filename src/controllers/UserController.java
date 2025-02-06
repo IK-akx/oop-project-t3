@@ -15,7 +15,6 @@ public class UserController {
     private NotificationService notificationService;
     private SupportService supportService;
 
-
     public UserController(UserService userService, OrderService orderService, ProductService productService,
                           NotificationService notificationService, SupportService supportService) {
         this.userService = userService;
@@ -54,7 +53,6 @@ public class UserController {
         }
     }
 
-
     public List<Order> viewOrders() {
         return orderService.getAllOrders();
     }
@@ -71,4 +69,3 @@ public class UserController {
         supportService.sendSupportMessage(email, message);
     }
 }
-

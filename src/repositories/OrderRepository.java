@@ -1,5 +1,6 @@
 package repositories;
 
+import data.PostgresDB;
 import data.interfaces.IDB;
 import models.Order;
 import repositories.interfaces.IOrderRepository;
@@ -11,15 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderRepository implements IOrderRepository {
-    private final IDB db;
+    private final Connection con;
 
     public OrderRepository(IDB db) {
-        this.db = db;
+        this.con = PostgresDB.getInstance("jdbc:postgresql://localhost:5432", "postgres", "0000", "postgres").getConnection();
     }
 
     @Override
     public void addOrder(Order order) {
-        try (Connection con = db.getConnection()) {
+        try  {
             String sql = "INSERT INTO orders (user_id, product_id, quantity, total_price, status) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, order.getUserId());
@@ -35,7 +36,7 @@ public class OrderRepository implements IOrderRepository {
 
     @Override
     public Order getOrderById(int id) {
-        try (Connection con = db.getConnection()) {
+        try {
             String sql = "SELECT * FROM orders WHERE order_id = ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, id);
@@ -60,8 +61,12 @@ public class OrderRepository implements IOrderRepository {
     @Override
     public List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
-        try (Connection con = db.getConnection()) {
-            String sql = "SELECT * FROM orders";
+        try {
+            String sql = "SELECT o.order_id, o.user_id, o.product_id, o.quantity, o.total_price, o.status, " +
+                    "u.name AS user_name, p.name AS product_name " +
+                    "FROM orders o " +
+                    "JOIN users u ON o.user_id = u.user_id " +
+                    "JOIN products p ON o.product_id = p.product_id";
             PreparedStatement st = con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
 
@@ -72,7 +77,9 @@ public class OrderRepository implements IOrderRepository {
                         rs.getInt("product_id"),
                         rs.getInt("quantity"),
                         rs.getDouble("total_price"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getString("user_name"),
+                        rs.getString("product_name")
                 ));
             }
         } catch (Exception e) {
@@ -81,9 +88,10 @@ public class OrderRepository implements IOrderRepository {
         return orders;
     }
 
+
     @Override
     public void updateOrder(Order order) {
-        try (Connection con = db.getConnection()) {
+        try {
             String sql = "UPDATE orders SET user_id = ?, product_id = ?, quantity = ?, total_price = ?, status = ? WHERE order_id = ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, order.getUserId());

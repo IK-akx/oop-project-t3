@@ -1,8 +1,7 @@
 package services;
 
+import factories.UserFactory;
 import models.User;
-import models.Admin;
-import models.Customer;
 import repositories.interfaces.IUserRepository;
 
 import java.util.List;
@@ -19,17 +18,12 @@ public class UserService {
             System.out.println("User with this email already exists.");
             return;
         }
-        User newUser;
-        if (isAdmin) {
-            newUser = new Admin(0, name, email, password); // Передаём временный id
-        } else {
-            newUser = new Customer(0, name, email, password); // Передаём временный id
-        }
+
+        String role = isAdmin ? "admin" : "customer";
+        User newUser = UserFactory.createUser(role, 0, name, email, password);
         userRepository.addUser(newUser);
         System.out.println("User registered: " + name);
     }
-
-
 
     public User login(String email, String password) {
         User user = userRepository.getUserByEmail(email);

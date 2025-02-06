@@ -1,5 +1,6 @@
 package repositories;
 
+import data.PostgresDB;
 import data.interfaces.IDB;
 import models.Product;
 import repositories.interfaces.IProductRepository;
@@ -12,15 +13,16 @@ import java.util.List;
 
 
 public class ProductRepository implements IProductRepository {
-    private final IDB db;
+    private final Connection con;
 
     public ProductRepository(IDB db) {
-        this.db = db;
+        this.con = PostgresDB.getInstance("jdbc:postgresql://localhost:5432", "postgres", "0000", "postgres").getConnection();
+
     }
 
     @Override
     public void addProduct(Product product) {
-        try (Connection con = db.getConnection()) {
+        try  {
             String sql = "INSERT INTO products (name, price, count) VALUES (?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, product.getName());
@@ -34,7 +36,7 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public Product getProductById(int id) {
-        try (Connection con = db.getConnection()) {
+        try  {
             String sql = "SELECT * FROM products WHERE product_id = ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, id);
@@ -57,7 +59,7 @@ public class ProductRepository implements IProductRepository {
     @Override
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
-        try (Connection con = db.getConnection()) {
+        try  {
             String sql = "SELECT * FROM products";
             PreparedStatement st = con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -78,7 +80,7 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public void updateProduct(Product product) {
-        try (Connection con = db.getConnection()) {
+        try  {
             String sql = "UPDATE products SET name = ?, price = ?, count = ? WHERE product_id = ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, product.getName());
@@ -92,7 +94,7 @@ public class ProductRepository implements IProductRepository {
     }
 
     public void decreaseProductCount(int productId, int quantity) {
-        try (Connection con = db.getConnection()) {
+        try  {
             String sql = "UPDATE products SET count = count - ? WHERE product_id = ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, quantity);

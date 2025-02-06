@@ -27,7 +27,7 @@ public class AdminController {
         } else {
             System.out.println("Order Report:");
             for (Order order : orders) {
-                System.out.println("ID: " + order.getId() + ", Product ID: " + order.getProductId() +
+                System.out.println("ID: " + order.getId() + ", User: " + order.getUserName() + ", Product: " + order.getProductName() +
                         ", Quantity: " + order.getQuantity() + ", Total Price: " + order.getTotalPrice() +
                         ", Status: " + order.getStatus());
             }
