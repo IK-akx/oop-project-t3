@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 import controllers.AdminController;
@@ -6,16 +7,19 @@ import models.Notification;
 import models.Order;
 import models.Product;
 import models.User;
+import services.OrderService;
 
 public class MyApplication {
     private UserController userController;
     private AdminController adminController;
     private Scanner scanner;
+    private OrderService orderService;
 
-    public MyApplication(UserController userController, AdminController adminController) {
+    public MyApplication(UserController userController, AdminController adminController, OrderService orderService) {
         this.userController = userController;
         this.adminController = adminController;
         this.scanner = new Scanner(System.in);
+        this.orderService = orderService;
     }
 
     public void start() {
@@ -38,20 +42,19 @@ public class MyApplication {
                 String email = scanner.nextLine();
                 System.out.print("Enter password: ");
                 String password = scanner.nextLine();
-                System.out.print("Is Admin or Customer? (A/C): ");
+                System.out.print("Is Admin or Customer? (A/N): ");
                 String roleDefine = scanner.nextLine();
                 boolean isAdmin = roleDefine.equals("A");
 
-                String realAdminCode = "120628";
+                int realAdminCode = 120628;
                 if (isAdmin) {
                     System.out.print("Enter Admin Code: ");
                     String adminCode = scanner.nextLine();
-                    if (!adminCode.equals(realAdminCode)) {
+                    if (!adminCode.equals("realAdminCode")) {
                         System.out.println("Incorrect Admin Code. Registration as Admin failed.");
                         continue;
                     }
                 }
-
 
                 scanner.nextLine();
                 userController.register(name, email, password, isAdmin);
@@ -78,6 +81,7 @@ public class MyApplication {
                         System.out.println("6. View Users");
                         System.out.println("7. Update User");
                         System.out.println("8. View Support Messages");
+                        System.out.println("9. View Orders Sorted by Price");
                         System.out.println("0. Logout");
                         int adminChoice = scanner.nextInt();
                         scanner.nextLine();
@@ -111,9 +115,11 @@ public class MyApplication {
                             double price = scanner.nextDouble();
                             System.out.print("Enter new count: ");
                             int count = scanner.nextInt();
+                            System.out.print("Enter category ID: ");
+                            int categoryId = scanner.nextInt();
                             scanner.nextLine();
 
-                            adminController.updateProduct(productId, productName, price, count);
+                            adminController.updateProduct(productId, productName, price, count, categoryId);
 
                         } else if (adminChoice == 6) {
                             adminController.viewUsers();
@@ -127,6 +133,14 @@ public class MyApplication {
                             adminController.updateUser(userEmail, userName, userPassword);
                         }else if (adminChoice == 8) {
                             adminController.viewSupportMessages();
+                        }else if (adminChoice == 9) {
+                            List<Order> sortedOrders = orderService.getOrdersSortedByPrice();
+                            System.out.println("Orders sorted by price:");
+                            for (Order order : sortedOrders) {
+                                System.out.println("ID: " + order.getId() + ", User ID: " + order.getUserId() +
+                                        ", Product ID: " + order.getProductId() + ", Quantity: " + order.getQuantity() +
+                                        ", Total Price: " + order.getTotalPrice() + ", Status: " + order.getStatus());
+                            }
                         }
                     }
                 }else {
