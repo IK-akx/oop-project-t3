@@ -1,7 +1,6 @@
 package repositories;
 
 import data.PostgresDB;
-import data.interfaces.IDB;
 import models.Order;
 import repositories.interfaces.IOrderRepository;
 
@@ -14,13 +13,13 @@ import java.util.List;
 public class OrderRepository implements IOrderRepository {
     private final Connection con;
 
-    public OrderRepository(IDB db) {
+    public OrderRepository() {
         this.con = PostgresDB.getInstance("jdbc:postgresql://localhost:5432", "postgres", "0000", "postgres").getConnection();
     }
 
     @Override
     public void addOrder(Order order) {
-        try  {
+        try {
             String sql = "INSERT INTO orders (user_id, product_id, quantity, total_price, status) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, order.getUserId());
@@ -88,7 +87,6 @@ public class OrderRepository implements IOrderRepository {
         return orders;
     }
 
-
     @Override
     public void updateOrder(Order order) {
         try {
@@ -100,6 +98,19 @@ public class OrderRepository implements IOrderRepository {
             st.setDouble(4, order.getTotalPrice());
             st.setString(5, order.getStatus());
             st.setInt(6, order.getId());
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateOrderStatus(int orderId, String status) {
+        try {
+            String sql = "UPDATE orders SET status = ? WHERE order_id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, status);
+            st.setInt(2, orderId);
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

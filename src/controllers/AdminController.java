@@ -1,7 +1,10 @@
 package controllers;
 
+import categories.ProductCategory;
 import services.*;
 import models.*;
+
+
 
 import java.util.List;
 
@@ -44,14 +47,36 @@ public class AdminController {
 
     public void viewProducts() {
         List<Product> products = productService.getAllProducts();
-        for (Product product : products) {
-            System.out.println(product);
+        if (products.isEmpty()) {
+            System.out.println("No products available.");
+        } else {
+            for (Product product : products) {
+                System.out.println("ID: " + product.getId() + ", Name: " + product.getName() + ", Price: " + product.getPrice() +
+                        ", Count: " + product.getCount() + ", Category: " + product.getCategory().getName());
+            }
         }
     }
 
-    public void updateProduct(int productId, String name, double price, int count) {
-        Product product = new Product(productId, name, price, count);
+    public void addCategory(String name) {
+        productService.addCategory(new ProductCategory(0, name));
+        System.out.println("Category added successfully!");
+    }
+
+    public void updateCategory(int categoryId, String name) {
+        productService.updateCategory(new ProductCategory(categoryId, name));
+        System.out.println("Category updated successfully!");
+    }
+
+    public void updateProduct(int productId, String name, double price, int count, int categoryId) {
+        ProductCategory category = productService.getCategoryById(categoryId);
+        if (category == null) {
+            System.out.println("Invalid category ID.");
+            return;
+        }
+
+        Product product = new Product(productId, name, price, count, category);
         productService.updateProduct(product);
+        System.out.println("Product updated successfully!");
     }
 
     public void decreaseProductCount(int productId, int quantity) {

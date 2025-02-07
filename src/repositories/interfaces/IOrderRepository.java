@@ -9,5 +9,6 @@ public interface IOrderRepository {
     Order getOrderById(int id);
     List<Order> getAllOrders();
     void updateOrder(Order order);
+    void updateOrderStatus(int orderId, String status);
 }
 

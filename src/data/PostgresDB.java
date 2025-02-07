@@ -9,41 +9,38 @@ import java.sql.SQLException;
 public class PostgresDB implements IDB {
     private static PostgresDB instance;
     private Connection connection;
-    private String host;
+    private String url;
     private String username;
     private String password;
-    private String dbName;
 
     public PostgresDB(String host, String username, String password, String dbName) {
-        this.host = host;
+        this.url = host + "/" + dbName;
         this.username = username;
         this.password = password;
-        this.dbName = dbName;
-        this.connection = getConnection();
+        this.connection = initConnection();
     }
 
     public static PostgresDB getInstance(String host, String username, String password, String dbName) {
         if (instance == null) {
             instance = new PostgresDB(host, username, password, dbName);
-        } else if (instance.getConnection() == null) {
-            instance = new PostgresDB(host, username, password, dbName);
         }
         return instance;
     }
 
-    @Override
-    public Connection getConnection() {
-        if (connection != null) {
-            return connection;
-        }
-
-        String connectionUrl = host + "/" + dbName;
+    private Connection initConnection() {
         try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(connectionUrl, username, password);
+            if (connection == null || connection.isClosed()) {
+                Class.forName("org.postgresql.Driver");
+                connection = DriverManager.getConnection(url, username, password);
+            }
         } catch (Exception e) {
             System.out.println("Failed to connect to postgres: " + e.getMessage());
         }
+        return connection;
+    }
+
+    @Override
+    public Connection getConnection() {
         return connection;
     }
 

@@ -12,15 +12,16 @@ public class Main {
 
 
         IUserRepository userRepository = new UserRepository();
-        IOrderRepository orderRepository = new OrderRepository(db);
-        IProductRepository productRepository = new ProductRepository(db);
+        IOrderRepository orderRepository = new OrderRepository();
+        IProductRepository productRepository = new ProductRepository();
         INotificationRepository notificationRepository = new NotificationRepository(db);
         ISupportRepository supportRepository = new SupportRepository(db);
+        ICategoryRepository categoryRepository = new CategoryRepository();
 
 
         UserService userService = new UserService(userRepository);
         OrderService orderService = new OrderService(orderRepository);
-        ProductService productService = new ProductService(productRepository);
+        ProductService productService = new ProductService(productRepository, categoryRepository);
         NotificationService notificationService = new NotificationService(notificationRepository);
         SupportService supportService = new SupportService(supportRepository, userService);
 
@@ -29,7 +30,7 @@ public class Main {
         UserController userController = new UserController(userService, orderService, productService, notificationService, supportService);
 
 
-        MyApplication app = new MyApplication(userController, adminController);
+        MyApplication app = new MyApplication(userController, adminController, orderService);
         app.start();
 
 
