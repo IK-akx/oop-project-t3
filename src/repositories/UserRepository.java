@@ -40,7 +40,7 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public User getUserByEmail(String email) {
-        try (Connection con = PostgresDB.getInstance("jdbc:postgresql://localhost:5432", "postgres", "password", "mydb").getConnection()) {
+        try {
             String sql = "SELECT * FROM users WHERE email = ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, email);
@@ -64,7 +64,7 @@ public class UserRepository implements IUserRepository {
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        try (Connection con = PostgresDB.getInstance("jdbc:postgresql://localhost:5432", "postgres", "password", "mydb").getConnection()) {
+        try {
             String sql = "SELECT * FROM users";
             PreparedStatement st = con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
