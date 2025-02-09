@@ -25,12 +25,33 @@ public class UserController implements IUserController {
 
     Scanner scanner = new Scanner(System.in);
 
+
+    private boolean isValidPass(String password) {
+        return password != null && password.length() >= 6;
+    }
+
     public void register(String name, String email, String password, boolean isAdmin) {
-        userService.register(name, email, password, isAdmin);
+        if (isValidPass(password)) {
+            userService.register(name, email, password, isAdmin);
+            System.out.println("User register successfully.");
+        } else {
+            System.out.println("Invalid email or password format");
+        }
     }
 
     public User login(String email, String password) {
-        return userService.login(email, password);
+        if (isValidPass(password)) {
+            User user = userService.login(email, password);
+            if (user != null) {
+                return user;
+            } else {
+                System.out.println("Incorrect email or password.");
+                return null;
+            }
+        } else {
+            System.out.println("Invalid email or password format.");
+            return null;
+        }
     }
 
     public double getProductPriceById(int productId) {
