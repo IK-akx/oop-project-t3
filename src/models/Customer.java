@@ -9,4 +9,9 @@ public class Customer extends User {
     public boolean isAdmin() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", isAdmin: " + this.isAdmin();
+    }
 }

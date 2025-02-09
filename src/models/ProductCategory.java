@@ -1,4 +1,4 @@
-package categories;
+package models;
 
 public class ProductCategory {
     private int id;

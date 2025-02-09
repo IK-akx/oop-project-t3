@@ -1,14 +1,15 @@
 package services;
 
-import categories.ProductCategory;
+import models.ProductCategory;
 import models.Product;
 import repositories.interfaces.ICategoryRepository;
 import repositories.interfaces.IProductRepository;
+import services.interfaces.IProductService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductService {
+public class ProductService implements IProductService {
     private final IProductRepository productRepository;
     private final ICategoryRepository categoryRepository;
 
@@ -27,6 +28,13 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         return productRepository.getAllProducts();
+    }
+
+    public List<Product> getProductsByCategory(int categoryId) {
+        if (categoryId == -1) {
+            return getAllProducts();
+        }
+        return productRepository.getProductsByCategory(categoryId);
     }
 
     public void updateProduct(Product product) {

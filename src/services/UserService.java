@@ -3,10 +3,11 @@ package services;
 import factories.UserFactory;
 import models.User;
 import repositories.interfaces.IUserRepository;
+import services.interfaces.IUserService;
 
 import java.util.List;
 
-public class UserService {
+public class UserService implements IUserService {
     private final IUserRepository userRepository;
 
     public UserService(IUserRepository userRepository) {

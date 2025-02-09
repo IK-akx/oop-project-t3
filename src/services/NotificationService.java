@@ -2,10 +2,11 @@ package services;
 
 import models.Notification;
 import repositories.interfaces.INotificationRepository;
+import services.interfaces.INotificationService;
 
 import java.util.List;
 
-public class NotificationService {
+public class NotificationService implements INotificationService {
     private final INotificationRepository notificationRepository;
 
     public NotificationService(INotificationRepository notificationRepository) {

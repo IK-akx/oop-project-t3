@@ -4,10 +4,11 @@ import models.SupportMessage;
 import models.User;
 import repositories.interfaces.ISupportRepository;
 import services.UserService;
+import services.interfaces.ISupportService;
 
 import java.util.List;
 
-public class SupportService {
+public class SupportService implements ISupportService {
     private final ISupportRepository supportMessageRepository;
     private final UserService userService;
 

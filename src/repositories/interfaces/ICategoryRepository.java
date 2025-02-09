@@ -1,6 +1,6 @@
 package repositories.interfaces;
 
-import categories.ProductCategory;
+import models.ProductCategory;
 
 import java.util.List;
 

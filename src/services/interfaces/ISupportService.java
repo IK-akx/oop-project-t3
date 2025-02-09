@@ -1,10 +1,11 @@
-package repositories.interfaces;
+package services.interfaces;
 
 import models.SupportMessage;
+
 import java.util.List;
 
-public interface ISupportRepository {
-    void addSupportMessage(SupportMessage supportMessage);
+public interface ISupportService {
+    void sendSupportMessage(String email, String message);
     List<SupportMessage> getAllSupportMessages();
     List<SupportMessage> getSupportMessagesByUserId(int userId);
 }

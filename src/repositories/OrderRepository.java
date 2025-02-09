@@ -116,4 +116,29 @@ public class OrderRepository implements IOrderRepository {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public List<Order> getOrdersByUserId(int userId) {
+        List<Order> orders = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM orders WHERE user_id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                orders.add(new Order(
+                        rs.getInt("order_id"),
+                        rs.getInt("user_id"),
+                        rs.getInt("product_id"),
+                        rs.getInt("quantity"),
+                        rs.getDouble("total_price"),
+                        rs.getString("status")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
 }
