@@ -2,12 +2,13 @@ package services;
 
 import models.Order;
 import repositories.interfaces.IOrderRepository;
+import services.interfaces.IOrderService;
 
 import java.util.List;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-public class OrderService {
+public class OrderService implements IOrderService {
     private final IOrderRepository orderRepository;
 
     public OrderService(IOrderRepository orderRepository) {
@@ -31,5 +32,9 @@ public class OrderService {
 
     public void updateOrderStatus(int orderId, String status) {
         orderRepository.updateOrderStatus(orderId, status);
+    }
+
+    public List<Order> getOrdersByUserId(int userId) {
+        return orderRepository.getOrdersByUserId(userId);
     }
 }

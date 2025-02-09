@@ -1,7 +1,7 @@
 package repositories;
 
 import data.PostgresDB;
-import categories.ProductCategory;
+import models.ProductCategory;
 import repositories.interfaces.ICategoryRepository;
 
 import java.sql.Connection;

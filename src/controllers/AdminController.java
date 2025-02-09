@@ -1,27 +1,31 @@
 package controllers;
 
-import categories.ProductCategory;
-import services.*;
+import controllers.interfaces.IAdminController;
+import models.ProductCategory;
+import services.interfaces.*;
 import models.*;
 
 
 
 import java.util.List;
+import java.util.Scanner;
 
-public class AdminController {
-    private OrderService orderService;
-    private ProductService productService;
-    private UserService userService;
-    private NotificationService notificationService;
-    private SupportService supportService;
+public class AdminController implements IAdminController {
+    private IOrderService orderService;
+    private IProductService productService;
+    private IUserService userService;
+    private INotificationService notificationService;
+    private ISupportService supportService;
 
-    public AdminController(OrderService orderService, ProductService productService, UserService userService, NotificationService notificationService, SupportService supportService) {
+    public AdminController(IOrderService orderService, IProductService productService, IUserService userService, INotificationService notificationService, ISupportService supportService) {
         this.orderService = orderService;
         this.productService = productService;
         this.userService = userService;
         this.notificationService = notificationService;
         this.supportService = supportService;
     }
+
+    Scanner scanner = new Scanner(System.in);
 
     public void generateReport() {
         List<Order> orders = orderService.getAllOrders();
@@ -41,12 +45,33 @@ public class AdminController {
         orderService.updateOrderStatus(orderId, status);
     }
 
+    @Override
+    public List<Order> getOrdersSortedByPrice() {
+        return orderService.getOrdersSortedByPrice();
+    }
+
     public void sendNotification(String email, String message) {
         notificationService.sendNotification(email, message);
     }
 
     public void viewProducts() {
-        List<Product> products = productService.getAllProducts();
+        List<ProductCategory> categories = productService.getAllCategories();
+        System.out.println("Categories:");
+        for (ProductCategory category : categories) {
+            System.out.println("ID: " + category.getId() + ", Name: " + category.getName());
+        }
+
+        System.out.println("Enter category ID to view products in that category, or type 'all' to view all products:");
+        String input = scanner.nextLine();
+
+        List<Product> products;
+        if (input.equalsIgnoreCase("all")) {
+            products = productService.getAllProducts();
+        } else {
+            int categoryId = Integer.parseInt(input);
+            products = productService.getProductsByCategory(categoryId);
+        }
+
         if (products.isEmpty()) {
             System.out.println("No products available.");
         } else {
@@ -57,9 +82,14 @@ public class AdminController {
         }
     }
 
-    public void addCategory(String name) {
-        productService.addCategory(new ProductCategory(0, name));
-        System.out.println("Category added successfully!");
+
+    @Override
+    public void addCategory() {
+        System.out.println("Enter new category name:");
+        String categoryName = scanner.nextLine();
+        ProductCategory category = new ProductCategory(0, categoryName);
+        productService.addCategory(category);
+        System.out.println("New category added successfully!");
     }
 
     public void updateCategory(int categoryId, String name) {
@@ -105,5 +135,47 @@ public class AdminController {
                 System.out.println(message);
             }
         }
+    }
+
+    public void updateCategory() {
+        List<ProductCategory> categories = productService.getAllCategories();
+        System.out.println("Categories:");
+        for (ProductCategory category : categories) {
+            System.out.println("ID: " + category.getId() + ", Name: " + category.getName());
+        }
+
+        System.out.println("Enter category ID to update:");
+        int categoryId = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        System.out.println("Enter new name for the category:");
+        String newName = scanner.nextLine();
+
+        ProductCategory category = new ProductCategory(categoryId, newName);
+        productService.updateCategory(category);
+        System.out.println("Category updated successfully!");
+    }
+
+    @Override
+    public void addProduct() {
+        System.out.println("Enter product name:");
+        String productName = scanner.nextLine();
+        System.out.println("Enter product price:");
+        double price = scanner.nextDouble();
+        System.out.println("Enter product count:");
+        int count = scanner.nextInt();
+        System.out.println("Enter category ID:");
+        int categoryId = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        ProductCategory category = productService.getCategoryById(categoryId);
+        if (category == null) {
+            System.out.println("Invalid category ID.");
+            return;
+        }
+
+        Product product = new Product(0, productName, price, count, category);
+        productService.addProduct(product);
+        System.out.println("Product added successfully!");
     }
 }

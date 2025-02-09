@@ -24,4 +24,8 @@ public abstract class User {
     public String getPassword() { return password; }
 
     public abstract boolean isAdmin();
+
+    public String toString() {
+        return "User: id=" + id + ", name= " + name + ", email= " + email;
+    }
 }

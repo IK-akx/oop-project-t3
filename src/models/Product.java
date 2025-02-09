@@ -1,7 +1,5 @@
 package models;
 
-import categories.ProductCategory;
-
 public class Product {
     private int id;
     private String name;

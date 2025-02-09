@@ -10,5 +10,6 @@ public interface IOrderRepository {
     List<Order> getAllOrders();
     void updateOrder(Order order);
     void updateOrderStatus(int orderId, String status);
+    List<Order> getOrdersByUserId(int userId);
 }
 
