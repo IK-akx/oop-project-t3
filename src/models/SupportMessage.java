@@ -7,10 +7,10 @@ public class SupportMessage {
     private String email;
 
     public SupportMessage(int supportMessageId, int userId, String message, String email) {
-        this.supportMessageId = supportMessageId;
-        this.userId = userId;
-        this.message = message;
-        this.email = email;
+        setSupportMessageId(supportMessageId);
+        setUserId(userId);
+        setMessage(message);
+        setEmail(email);
     }
 
     public int getSupportMessageId() { return supportMessageId; }

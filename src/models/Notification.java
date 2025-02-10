@@ -5,8 +5,8 @@ public class Notification {
     private String message;
 
     public Notification(String email, String message) {
-        this.email = email;
-        this.message = message;
+        setEmail(email);
+        setMessage(message);
     }
 
     public void setEmail(String email) { this.email = email; }

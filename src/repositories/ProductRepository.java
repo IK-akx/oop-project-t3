@@ -51,7 +51,8 @@ public class ProductRepository implements IProductRepository {
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
                 int count = rs.getInt("count");
-                ProductCategory category = new ProductCategory(rs.getInt("category_id"), rs.getString("category_name"));
+                ProductCategory category = new ProductCategory(rs.getInt("category_id"),
+                        rs.getString("category_name"));
 
                 return new Product(productId, name, price, count, category);
             }
@@ -75,7 +76,8 @@ public class ProductRepository implements IProductRepository {
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
                 int count = rs.getInt("count");
-                ProductCategory category = new ProductCategory(rs.getInt("category_id"), rs.getString("category_name"));
+                ProductCategory category = new ProductCategory(rs.getInt("category_id"),
+                        rs.getString("category_name"));
 
                 products.add(new Product(id, name, price, count, category));
             }
@@ -129,7 +131,8 @@ public class ProductRepository implements IProductRepository {
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
                 int count = rs.getInt("count");
-                ProductCategory category = new ProductCategory(rs.getInt("category_id"), rs.getString("category_name"));
+                ProductCategory category = new ProductCategory(rs.getInt("category_id"),
+                        rs.getString("category_name"));
 
                 products.add(new Product(id, name, price, count, category));
             }
@@ -139,3 +142,4 @@ public class ProductRepository implements IProductRepository {
         return products;
     }
 }
+//1

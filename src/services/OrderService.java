@@ -26,7 +26,7 @@ public class OrderService implements IOrderService {
 
     public List<Order> getOrdersSortedByPrice() {
         return orderRepository.getAllOrders().stream()
-                .sorted(Comparator.comparingDouble(Order::getTotalPrice))
+                .sorted(Comparator.comparingDouble(order -> order.getTotalPrice()))
                 .collect(Collectors.toList());
     }
 
@@ -38,3 +38,4 @@ public class OrderService implements IOrderService {
         return orderRepository.getOrdersByUserId(userId);
     }
 }
+//1

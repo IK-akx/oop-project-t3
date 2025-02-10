@@ -15,3 +15,5 @@ public class Customer extends User {
         return super.toString() + ", isAdmin: " + this.isAdmin();
     }
 }
+
+//1

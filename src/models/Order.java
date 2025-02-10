@@ -11,23 +11,23 @@ public class Order {
     private String productName;
 
     public Order(int id, int userId, int productId, int quantity, double totalPrice, String status) {
-        this.id = id;
-        this.userId = userId;
-        this.productId = productId;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-        this.status = status;
+        setId(id);
+        setUserId(userId);
+        setProductId(productId);
+        setQuantity(quantity);
+        setTotalPrice(totalPrice);
+        setStatus(status);
     }
 
     public Order(int id, int userId, int productId, int quantity, double totalPrice, String status, String userName, String productName) {
-        this.id = id;
-        this.userId = userId;
-        this.productId = productId;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-        this.status = status;
-        this.userName = userName;
-        this.productName = productName;
+        setId(id);
+        setUserId(userId);
+        setProductId(productId);
+        setQuantity(quantity);
+        setTotalPrice(totalPrice);
+        setStatus(status);
+        setUserName(userName);
+        setProductName(productName);
     }
 
     public void setId(int id) { this.id = id; }
@@ -36,6 +36,8 @@ public class Order {
     public void setQuantity(int quantity) { this.quantity = quantity; }
     public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
     public void setStatus(String status) { this.status = status; }
+    public void setUserName(String userName) { this.userName = userName; }
+    public void setProductName(String productName) { this.productName = productName; }
 
     public int getId() { return id; }
     public int getUserId() { return userId; }

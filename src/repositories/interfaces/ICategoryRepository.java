@@ -10,3 +10,5 @@ public interface ICategoryRepository {
     List<ProductCategory> getAllCategories();
     void updateCategory(ProductCategory category);
 }
+
+//1

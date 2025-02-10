@@ -15,3 +15,5 @@ public class Admin extends User {
         return super.toString() + ", isAdmin: " + this.isAdmin();
     }
 }
+
+//1
