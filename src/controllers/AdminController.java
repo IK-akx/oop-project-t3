@@ -166,7 +166,7 @@ public class AdminController implements IAdminController {
         int count = scanner.nextInt();
         System.out.println("Enter category ID:");
         int categoryId = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
+        scanner.nextLine();
 
         ProductCategory category = productService.getCategoryById(categoryId);
         if (category == null) {

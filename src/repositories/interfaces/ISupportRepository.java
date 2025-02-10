@@ -8,3 +8,5 @@ public interface ISupportRepository {
     List<SupportMessage> getAllSupportMessages();
     List<SupportMessage> getSupportMessagesByUserId(int userId);
 }
+
+//1

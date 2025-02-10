@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface IOrderRepository {
     void addOrder(Order order);
-    Order getOrderById(int id);
     List<Order> getAllOrders();
-    void updateOrder(Order order);
     void updateOrderStatus(int orderId, String status);
     List<Order> getOrdersByUserId(int userId);
+    void updateOrder(Order order);
+    Order getOrderById(int id);
 }
 

@@ -8,11 +8,11 @@ public class Product {
     private ProductCategory category; // Новое поле для категории
 
     public Product(int id, String name, double price, int count, ProductCategory category) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.count = count;
-        this.category = category;
+        setId(id);
+        setName(name);
+        setPrice(price);
+        setCount(count);
+        setCategory(category);
     }
 
 
@@ -56,3 +56,5 @@ public class Product {
         this.category = category;
     }
 }
+
+//1

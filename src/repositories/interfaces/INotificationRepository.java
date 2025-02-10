@@ -8,3 +8,5 @@ public interface INotificationRepository {
     void addNotification(Notification notification);
     List<Notification> getNotificationsByEmail(String email);
 }
+
+//1

@@ -5,8 +5,8 @@ public class ProductCategory {
     private String name;
 
     public ProductCategory(int id, String name) {
-        this.id = id;
-        this.name = name;
+        setId(id);
+        setName(name);
     }
 
     public int getId() {

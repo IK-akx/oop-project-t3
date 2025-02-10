@@ -3,7 +3,6 @@ package services;
 import models.SupportMessage;
 import models.User;
 import repositories.interfaces.ISupportRepository;
-import services.UserService;
 import services.interfaces.ISupportService;
 
 import java.util.List;

@@ -8,8 +8,8 @@ public interface IProductRepository {
     Product getProductById(int id);
     List<Product> getAllProducts();
     void updateProduct(Product product);
-    void decreaseProductCount(int productId, int quantity); // Новый метод для уменьшения количества продукта
+    void decreaseProductCount(int productId, int quantity);
     List<Product> getProductsByCategory(int categoryId);
 }
 
-
+//1
